@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAG Mastery — Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root[data-theme="dark"] {
+  --bg: #191919;
+  --bg-hover: #222222;
+  --bg-panel: #1f1f1f;
+  --bg-panel2: #252525;
+  --border: #2e2e2e;
+  --border-hover: #3d3d3d;
+  --text: #e3e3e3;
+  --text-2: #9b9b9b;
+  --text-3: #636363;
+  --text-inv: #191919;
+  --blue: #529cca;
+  --green: #4d9e6e;
+  --green-bg: #1c2d23;
+  --amber: #c9965a;
+  --amber-bg: #2a2218;
+  --purple: #9181d4;
+  --purple-bg: #221f33;
+  --red: #c4614f;
+  --red-bg: #2d1f1c;
+  --checkbox-border: #555;
+  --divider: #2e2e2e;
+  --toggle-bg: #2e2e2e;
+  --code-bg: #252525;
+}
+:root[data-theme="light"] {
+  --bg: #ffffff;
+  --bg-hover: #f7f7f5;
+  --bg-panel: #fbfbfa;
+  --bg-panel2: #f2f1ee;
+  --border: #e9e9e7;
+  --border-hover: #d3d2cf;
+  --text: #37352f;
+  --text-2: #787774;
+  --text-3: #b0aeaa;
+  --text-inv: #ffffff;
+  --blue: #0b6bcb;
+  --green: #2e7d5b;
+  --green-bg: #e9f5ee;
+  --amber: #c27d1f;
+  --amber-bg: #fef9ec;
+  --purple: #6558c9;
+  --purple-bg: #f0eefb;
+  --red: #c0392b;
+  --red-bg: #fdeeec;
+  --checkbox-border: #c4c4c0;
+  --divider: #e9e9e7;
+  --toggle-bg: #e9e9e7;
+  --code-bg: #f2f1ee;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter',-apple-system,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; -webkit-font-smoothing:antialiased; transition:background .2s,color .2s; }
+.layout { display:flex; min-height:100vh; }
+
+/* SIDEBAR */
+.sidebar { width:240px; flex-shrink:0; background:var(--bg-panel); border-right:1px solid var(--border); padding:16px 0; position:fixed; top:0; left:0; height:100vh; overflow-y:auto; z-index:100; transition:background .2s,border-color .2s; }
+.sb-header { padding:4px 14px 14px; border-bottom:1px solid var(--border); margin-bottom:8px; }
+.sb-logo { font-size:14px; font-weight:600; color:var(--text); display:flex; align-items:center; gap:8px; }
+.sb-icon { width:22px; height:22px; background:var(--text); border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--text-inv); font-weight:700; flex-shrink:0; }
+.sb-section { font-size:11px; font-weight:500; color:var(--text-3); letter-spacing:.04em; text-transform:uppercase; padding:10px 16px 4px; }
+.sb-item { display:flex; align-items:center; gap:8px; padding:5px 16px; font-size:13px; color:var(--text-2); cursor:pointer; transition:background .1s,color .1s; }
+.sb-item:hover { background:var(--bg-hover); color:var(--text); }
+.sb-item.active { background:var(--bg-panel2); color:var(--text); }
+.pdot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.pdot-done { background:var(--green); }
+.pdot-active { background:var(--amber); }
+.pdot-locked { background:var(--border-hover); }
+.sb-footer { padding:12px 16px; margin-top:8px; border-top:1px solid var(--border); }
+.sb-prog-label { font-size:11px; color:var(--text-3); margin-bottom:6px; display:flex; justify-content:space-between; }
+.sb-prog-track { height:3px; background:var(--border); border-radius:99px; overflow:hidden; }
+.sb-prog-fill { height:100%; background:var(--green); border-radius:99px; transition:width .4s; }
+
+/* TOPBAR */
+.topbar { position:fixed; top:0; left:240px; right:0; height:45px; background:var(--bg); border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; padding:0 40px; z-index:99; transition:background .2s,border-color .2s; }
+.breadcrumb { font-size:13px; color:var(--text-2); display:flex; align-items:center; gap:6px; }
+.breadcrumb span { color:var(--text-3); }
+.topbar-btns { display:flex; gap:8px; }
+.tbtn { background:var(--toggle-bg); border:1px solid var(--border); border-radius:5px; padding:4px 12px; font-size:12px; color:var(--text-2); cursor:pointer; font-family:'Inter',sans-serif; transition:all .15s; }
+.tbtn:hover { background:var(--bg-hover); color:var(--text); }
+
+/* MAIN */
+.main { margin-left:240px; margin-top:45px; max-width:820px; padding:52px 72px 120px; }
+.page-icon { font-size:44px; margin-bottom:10px; }
+.page-title { font-size:34px; font-weight:700; color:var(--text); letter-spacing:-.5px; margin-bottom:6px; }
+.page-meta { font-size:13px; color:var(--text-3); margin-bottom:32px; display:flex; gap:14px; flex-wrap:wrap; }
+
+/* CALLOUT */
+.callout { display:flex; gap:12px; padding:14px 16px; border-radius:4px; margin-bottom:20px; border:1px solid transparent; font-size:13.5px; line-height:1.6; }
+.callout-blue { background:rgba(82,156,202,.08); border-color:rgba(82,156,202,.2); color:var(--text-2); }
+.callout-amber { background:var(--amber-bg); border-color:rgba(201,150,90,.2); color:var(--text-2); }
+.callout-green { background:var(--green-bg); border-color:rgba(77,158,110,.2); color:var(--text-2); }
+.callout-icon { font-size:16px; flex-shrink:0; }
+
+/* STATS */
+.stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:6px; overflow:hidden; margin-bottom:28px; }
+.stat-cell { background:var(--bg-panel); padding:14px 16px; }
+.stat-label { font-size:11px; color:var(--text-3); font-weight:500; text-transform:uppercase; letter-spacing:.04em; margin-bottom:3px; }
+.stat-val { font-size:20px; font-weight:600; color:var(--text); font-family:'JetBrains Mono',monospace; }
+.stat-sub { font-size:11px; color:var(--text-3); margin-top:2px; }
+
+/* PROGRESS */
+.prog-wrap { margin-bottom:28px; }
+.prog-header { display:flex; justify-content:space-between; font-size:12px; color:var(--text-3); margin-bottom:6px; }
+.prog-track { height:4px; background:var(--border); border-radius:99px; overflow:hidden; }
+.prog-fill { height:100%; background:var(--green); border-radius:99px; transition:width .5s; }
+
+.notion-divider { height:1px; background:var(--divider); margin:24px 0; }
+.section-h2 { font-size:17px; font-weight:600; color:var(--text); margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+
+/* PHASE */
+.phase-block { margin-bottom:2px; border-radius:4px; border:1px solid transparent; overflow:hidden; transition:border-color .2s; }
+.phase-block.phase-active { border-color:rgba(201,150,90,.25); }
+.phase-row { display:flex; align-items:center; gap:8px; padding:7px 8px; cursor:pointer; border-radius:4px; transition:background .1s; user-select:none; }
+.phase-row:hover { background:var(--bg-hover); }
+.toggle-arrow { width:18px; height:18px; display:flex; align-items:center; justify-content:center; color:var(--text-3); font-size:9px; flex-shrink:0; transition:transform .2s; }
+.toggle-arrow.open { transform:rotate(90deg); }
+.phase-title-wrap { display:flex; align-items:center; gap:10px; flex:1; flex-wrap:wrap; }
+.phase-num { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-3); }
+.phase-name { font-size:14px; font-weight:500; color:var(--text); }
+.ptag { font-size:11px; font-weight:500; padding:1px 7px; border-radius:3px; }
+.ptag-system { background:rgba(82,156,202,.15); color:var(--blue); }
+.ptag-algo { background:rgba(201,150,90,.15); color:var(--amber); }
+.ptag-eval { background:rgba(145,129,212,.15); color:var(--purple); }
+.ptag-prod { background:rgba(77,158,110,.15); color:var(--green); }
+.ptag-done { background:var(--green-bg); color:var(--green); }
+.ptag-scratch { background:rgba(82,156,202,.1); color:var(--blue); }
+.ptag-langchain { background:rgba(145,129,212,.1); color:var(--purple); }
+.phase-prog { font-size:11px; color:var(--text-3); font-family:'JetBrains Mono',monospace; margin-left:auto; white-space:nowrap; }
+
+/* PHASE CONTENT */
+.phase-content { display:none; padding:0 8px 10px 34px; }
+.phase-content.open { display:block; }
+.phase-goal { font-size:13px; color:var(--text-2); line-height:1.7; padding:6px 0 10px; border-bottom:1px solid var(--border); margin-bottom:6px; }
+.impl-note { display:flex; gap:8px; padding:7px 12px; background:var(--code-bg); border-radius:4px; margin:6px 0; font-size:12px; color:var(--text-2); font-family:'JetBrains Mono',monospace; border-left:3px solid var(--border-hover); }
+
+/* DATASET */
+.dataset-box { display:flex; gap:10px; padding:10px 14px; background:var(--bg-panel); border:1px solid var(--border); border-radius:4px; margin:8px 0 10px; }
+.ds-body { flex:1; }
+.ds-title { font-weight:500; color:var(--text); font-size:13px; margin-bottom:5px; }
+.ds-item { display:flex; align-items:baseline; gap:6px; font-size:12px; color:var(--text-2); margin-bottom:2px; }
+.ds-item a { color:var(--blue); text-decoration:none; font-family:'JetBrains Mono',monospace; font-size:11px; }
+.ds-item a:hover { text-decoration:underline; }
+.ds-why { color:var(--text-3); font-size:11px; }
+
+/* TASK GROUP */
+.task-group-label { font-size:11px; font-weight:600; color:var(--text-3); text-transform:uppercase; letter-spacing:.05em; padding:12px 0 5px; }
+
+/* TASK */
+.task { display:flex; align-items:flex-start; gap:10px; padding:6px 6px; border-radius:4px; cursor:pointer; transition:background .1s; }
+.task:hover { background:var(--bg-hover); }
+.task.done .task-text { color:var(--text-3); text-decoration:line-through; }
+.task.done .task-desc { opacity:.5; }
+.task-cb { width:16px; height:16px; border:1.5px solid var(--checkbox-border); border-radius:3px; flex-shrink:0; margin-top:3px; display:flex; align-items:center; justify-content:center; transition:all .15s; }
+.task.done .task-cb { background:var(--green); border-color:var(--green); }
+.task.done .task-cb::after { content:''; width:8px; height:5px; border-left:1.5px solid #fff; border-bottom:1.5px solid #fff; transform:rotate(-45deg) translateY(-1px); display:block; }
+.task-body { flex:1; }
+.task-text { font-size:14px; color:var(--text); line-height:1.5; }
+.task-desc { font-size:12.5px; color:var(--text-3); line-height:1.5; margin-top:2px; }
+.task-pills { display:flex; gap:5px; margin-top:5px; flex-wrap:wrap; }
+.pill { font-size:11px; padding:1px 7px; border-radius:3px; font-weight:500; }
+.pill-warmup { background:var(--green-bg); color:var(--green); }
+.pill-flow { background:var(--amber-bg); color:var(--amber); }
+.pill-deep { background:var(--red-bg); color:var(--red); }
+.pill-concept { background:var(--bg-panel2); color:var(--text-3); border:1px solid var(--border); }
+.pill-build { background:rgba(82,156,202,.1); color:var(--blue); }
+.pill-experiment { background:var(--purple-bg); color:var(--purple); }
+.pill-eval { background:var(--green-bg); color:var(--green); }
+
+/* JOURNAL */
+.journal-wrap { margin-top:40px; }
+.j-textarea { width:100%; min-height:96px; background:var(--bg-panel); border:1px solid var(--border); border-radius:5px; color:var(--text); font-family:'Inter',sans-serif; font-size:14px; padding:12px 14px; resize:vertical; outline:none; transition:border-color .15s; line-height:1.6; }
+.j-textarea:focus { border-color:var(--border-hover); }
+.j-textarea::placeholder { color:var(--text-3); }
+.j-btn { margin-top:8px; background:var(--bg-panel2); border:1px solid var(--border); border-radius:5px; color:var(--text-2); font-family:'Inter',sans-serif; font-size:13px; padding:7px 16px; cursor:pointer; transition:all .15s; }
+.j-btn:hover { background:var(--bg-hover); color:var(--text); }
+.j-entries { margin-top:16px; display:flex; flex-direction:column; gap:10px; }
+.j-entry { padding:12px 14px; background:var(--bg-panel); border:1px solid var(--border); border-radius:5px; }
+.j-date { font-size:11px; color:var(--text-3); margin-bottom:4px; font-family:'JetBrains Mono',monospace; }
+.j-text { font-size:13.5px; color:var(--text-2); line-height:1.6; }
+
+@media (max-width:768px) {
+  .sidebar { display:none; }
+  .topbar { left:0; }
+  .main { margin-left:0; padding:28px 20px 80px; }
+  .stats-row { grid-template-columns:repeat(2,1fr); }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<nav class="sidebar" id="sidebar">
+  <div class="sb-header">
+    <div class="sb-logo"><div class="sb-icon">R</div>RAG Mastery</div>
+  </div>
+  <div class="sb-section">Phases</div>
+  <div id="sb-phases"></div>
+  <div class="sb-footer">
+    <div class="sb-prog-label"><span>Progress</span><span id="sb-pct">0%</span></div>
+    <div class="sb-prog-track"><div class="sb-prog-fill" id="sb-fill" style="width:0%"></div></div>
+    <div style="margin-top:14px; font-size:12px; color:var(--text-3); line-height:1.9;">
+      Python · FastAPI<br>ChromaDB → Pinecone<br>HuggingFace · RAGAS<br>Next.js
+    </div>
+  </div>
+</nav>
+
+<div class="topbar">
+  <div class="breadcrumb">RAG Mastery <span>/</span> Roadmap</div>
+  <div class="topbar-btns">
+    <button class="tbtn" onclick="toggleTheme()" id="theme-btn">☀ Light</button>
+    <button class="tbtn" onclick="confirmReset()" style="color:var(--text-3)">Reset</button>
+  </div>
+</div>
+
+<main class="main">
+  <div class="page-icon">🧠</div>
+  <div class="page-title">RAG Mastery Roadmap</div>
+  <div class="page-meta">
+    <div>📋 <span id="m-done">0</span> / <span id="m-total">0</span> tasks</div>
+    <div>📍 Phase <span id="m-phase">01</span></div>
+    <div>🎯 Goal: job-ready AI Engineer</div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-icon">💡</div>
+    <div><b>LangChain strategy:</b> Phases 01–03 → build from scratch only. Feel the pain of wiring embeddings, chunking, and retrieval yourself. Phases 04+ → use LangChain <i>selectively</i> for conversational memory and document loaders. Rule: if you cannot explain what the abstraction does, do not use it yet.</div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-label">Completed</div><div class="stat-val" id="s-done">0</div><div class="stat-sub">of <span id="s-total">0</span> tasks</div></div>
+    <div class="stat-cell"><div class="stat-label">Progress</div><div class="stat-val" id="s-pct">0%</div><div class="stat-sub">overall</div></div>
+    <div class="stat-cell"><div class="stat-label">Phase</div><div class="stat-val" id="s-phase">01</div><div class="stat-sub" id="s-pname">Foundation</div></div>
+    <div class="stat-cell"><div class="stat-label">Approach</div><div class="stat-val" style="font-size:13px;padding-top:4px">Scratch+LC</div><div class="stat-sub">hybrid strategy</div></div>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-header"><span>Overall completion</span><span id="prog-label">0%</span></div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="notion-divider"></div>
+  <div class="section-h2">📚 Phases</div>
+  <div id="phases-root"></div>
+
+  <div class="notion-divider"></div>
+
+  <div class="journal-wrap">
+    <div class="section-h2">📝 Learning Log</div>
+    <div class="callout callout-amber" style="margin-bottom:12px;">
+      <div class="callout-icon">✍️</div>
+      <div>Write one line after each session. What clicked? What broke? What would you tell yourself yesterday?</div>
+    </div>
+    <textarea class="j-textarea" id="j-input" placeholder="Log a realization, a failure, a breakthrough…"></textarea>
+    <button class="j-btn" onclick="addJournal()">Save entry</button>
+    <div class="j-entries" id="j-entries"></div>
+  </div>
+</main>
+</div>
+
+<script>
+const PHASES = [
+  {
+    id:'p0',num:'00',name:'Foundation — Already Yours',tags:['done'],
+    goal:'You have already done this. Collapse it and move forward. Every later phase builds on what you wired here.',
+    approach:null,datasets:null,
+    groups:[{label:'✓ Completed',tasks:[
+      {id:'t0-1',text:'Set up ChromaDB + HuggingFace embedding model locally',desc:'You know how text becomes a vector and how vectors land in a database.',diff:'warmup',type:'build'},
+      {id:'t0-2',text:'Implement basic chunking and embed chunks into ChromaDB',desc:'Pipeline skeleton: chunk → embed → store.',diff:'warmup',type:'build'},
+      {id:'t0-3',text:'Query ChromaDB and retrieve top-k relevant chunks',desc:'You can ask a question and get back context. That is the RAG loop.',diff:'warmup',type:'build'},
+    ]}]
+  },
+  {
+    id:'p1',num:'01',name:'Internals Lab — Understand Everything',tags:['system','algo','scratch'],
+    goal:'No LangChain. No shortcuts. A Python scratchpad that reveals why each piece works. Every task should make you say "ohh, THAT\'s why." This is where most people stay shallow — you will not.',
+    approach:'🔨 Scratch only. Write every line yourself.',
+    datasets:{title:'Use these datasets for experiments:',items:[
+      {label:'wikipedia (simple-english, HuggingFace)',url:'https://huggingface.co/datasets/wikimedia/wikipedia',why:'Clean, varied text — ideal for chunking experiments'},
+      {label:'ms_marco (v2.1 passages)',url:'https://huggingface.co/datasets/ms_marco',why:'Comes with Q&A pairs — built-in recall ground truth'},
+      {label:'arxiv_dataset (cs.AI subset)',url:'https://huggingface.co/datasets/arxiv_dataset',why:'Dense technical text — stress tests your embeddings'},
+    ]},
+    groups:[
+      {label:'Embedding Mechanics',tasks:[
+        {id:'t1-1',text:'Compare cosine vs dot product vs Euclidean on 5 sentence pairs',desc:'Similar pair, unrelated pair, negation pair. Compute all 3. Find where they disagree. Write down when each one breaks.',diff:'flow',type:'experiment'},
+        {id:'t1-2',text:'Understand why cosine is the default for RAG',desc:'Embed same sentence from 2 models. Check magnitude differences. You will see why magnitude-normalized similarity is safer.',diff:'flow',type:'concept'},
+        {id:'t1-3',text:'Benchmark 3 HuggingFace models on same query set',desc:'all-MiniLM-L6-v2 vs bge-small-en-v1.5 vs e5-small. Same 10 queries. Compare recall manually. Pick your default and justify it.',diff:'flow',type:'experiment'},
+        {id:'t1-4',text:'Map dimensionality tradeoffs across 5 embedding models',desc:'Build a table: model → dims → RAM → query latency → quality. Know when 384-dim is enough vs when you need 1536.',diff:'warmup',type:'concept'},
+      ]},
+      {label:'Chunking Deep Dive',tasks:[
+        {id:'t1-5',text:'Build a chunking experiment harness',desc:'Same Wikipedia article. Chunk sizes: 128/256/512/1024 tokens. Overlap: 0/10/20%. Log which config retrieves best for 10 different queries.',diff:'flow',type:'experiment'},
+        {id:'t1-6',text:'Implement 4 chunking strategies from scratch',desc:'Fixed token, sentence-aware, paragraph-aware, semantic (embed then cluster). No libraries — write the split logic yourself.',diff:'deep',type:'build'},
+        {id:'t1-7',text:'Prove the "lost in the middle" failure mode',desc:'Craft a document where the answer is buried mid-chunk. Show it gets missed. Document the exact failure case — you will reference this in your eval phase.',diff:'flow',type:'experiment'},
+      ]},
+      {label:'HNSW & Indexing',tasks:[
+        {id:'t1-8',text:'Understand HNSW — draw the graph layers on paper',desc:'Hierarchical Navigable Small World. Read the concept. Draw 3 layers. Write 5 lines explaining recall vs latency tradeoff as if explaining to a junior.',diff:'deep',type:'concept'},
+        {id:'t1-9',text:'Tune ef_construction and M params in ChromaDB',desc:'Higher M = better recall, more memory. Test on 5k vectors. Plot recall vs latency. Pick your production defaults.',diff:'deep',type:'experiment'},
+      ]},
+    ]
+  },
+  {
+    id:'p2',num:'02',name:'Core RAG Pipeline — Real Shape',tags:['system','scratch'],
+    goal:'Build the full pipeline on a real document corpus. This is the skeleton everything else plugs into. Keep it modular — swapping the embedding model or vector DB should be a config change, not a rewrite.',
+    approach:'🔨 Scratch only. LangChain loaders are OK to read for inspiration, but write your own.',
+    datasets:{title:'Use these real-world document sources:',items:[
+      {label:'SEC 10-K filings (PDF, direct download)',url:'https://www.sec.gov/cgi-bin/browse-edgar',why:'Dense long PDFs — stress tests ingestion and chunking quality'},
+      {label:'Kaggle: Wikipedia Q&A dataset',url:'https://www.kaggle.com/datasets/rtatman/questionanswer-dataset',why:'Answer spans included — easy manual eval without building golden set'},
+      {label:'PubMed Open Access (HuggingFace)',url:'https://huggingface.co/datasets/pubmed',why:'Technical citations — tests source attribution quality'},
+    ]},
+    groups:[
+      {label:'Ingestion',tasks:[
+        {id:'t2-1',text:'Build PDF ingestion pipeline (PyMuPDF or pdfplumber)',desc:'Extract text, handle multi-column layouts, detect tables. Test on 3 different PDF structures: report, academic paper, form.',diff:'flow',type:'build'},
+        {id:'t2-2',text:'Add rich metadata to every stored chunk',desc:'Schema: {doc_id, source_file, page_num, chunk_index, char_start, char_end}. Design it now — you will filter on it in every later phase.',diff:'warmup',type:'build'},
+        {id:'t2-3',text:'Build document loader abstraction: PDF, TXT, Markdown, URL',desc:'One interface, multiple backends. Adding a new source type = 10 lines max.',diff:'flow',type:'build'},
+      ]},
+      {label:'Retrieval Chain',tasks:[
+        {id:'t2-4',text:'Build the retrieval chain: query → embed → ANN → top-k',desc:'Clean function: input string → List[Chunk with score + metadata]. Modular and testable in isolation.',diff:'flow',type:'build'},
+        {id:'t2-5',text:'Add metadata filtering to retrieval',desc:'Filter by doc_id, date range, source. Implement: "only search in doc X" and "only pages 10-20".',diff:'flow',type:'build'},
+        {id:'t2-6',text:'LLM answer generation with inline source citations',desc:'Pass retrieved chunks as context. Prompt LLM to cite like [doc.pdf, p.4]. Test faithfulness manually on 10 queries before adding RAGAS.',diff:'flow',type:'build'},
+      ]},
+    ]
+  },
+  {
+    id:'p3',num:'03',name:'Advanced Retrieval — Hybrid + Reranking',tags:['algo','scratch'],
+    goal:'Dense retrieval alone fails on keyword queries. BM25 alone fails on semantic queries. Combined via RRF, they dominate. A cross-encoder reranker then sharpens precision. This is what separates demo RAG from production RAG.',
+    approach:'🔨 Scratch — implement BM25 the formula yourself before using rank_bm25 library.',
+    datasets:{title:'Purpose-built datasets for this phase:',items:[
+      {label:'MS MARCO v2.1 — passage ranking task',url:'https://huggingface.co/datasets/ms_marco',why:'Keyword + semantic query mix — perfect for BM25 vs dense comparison'},
+      {label:'BEIR benchmark suite (GitHub)',url:'https://github.com/beir-cellar/beir',why:'Industry-standard retrieval benchmark with ready eval scripts'},
+      {label:'Natural Questions (Google, HuggingFace)',url:'https://huggingface.co/datasets/natural_questions',why:'Real user queries from Google Search — diverse difficulty levels'},
+    ]},
+    groups:[
+      {label:'BM25 + Hybrid Search',tasks:[
+        {id:'t3-1',text:'Implement BM25 from scratch on a toy corpus',desc:'TF * IDF * length normalization. Implement the formula in 50 lines. Find 3 real queries where it beats dense retrieval.',diff:'deep',type:'concept'},
+        {id:'t3-2',text:'Build hybrid retrieval: BM25 + dense vector, fused with RRF',desc:'Reciprocal Rank Fusion: score = Σ 1/(k + rank_i). k=60 is the standard default. This is the industry-standard fusion method.',diff:'deep',type:'build'},
+        {id:'t3-3',text:'Document 3 query types where hybrid beats pure dense',desc:'Rare terms, product codes, proper nouns, negations. Find real cases in your corpus. This is your evidence base.',diff:'flow',type:'experiment'},
+      ]},
+      {label:'Cross-Encoder Reranking',tasks:[
+        {id:'t3-4',text:'Understand bi-encoder vs cross-encoder — know this cold',desc:'Bi-encoder: fast, independent (for ANN). Cross-encoder: slow, joint scoring (for reranking). Two fundamentally different inference modes.',diff:'flow',type:'concept'},
+        {id:'t3-5',text:'Add cross-encoder reranker (ms-marco-MiniLM-L-6-v2)',desc:'Retrieve top-20, rerank with cross-encoder, keep top-5. Measure precision@5 before and after on 20 queries.',diff:'deep',type:'build'},
+        {id:'t3-6',text:'Measure reranking latency cost — make it an optional flag',desc:'Reranking adds 100-300ms. Add rerank=True/False flag. Log latency + recall both ways. Quantify the tradeoff.',diff:'flow',type:'experiment'},
+      ]},
+    ]
+  },
+  {
+    id:'p4',num:'04',name:'Conversational RAG + Memory',tags:['system','langchain'],
+    goal:'A one-shot RAG is a demo. A conversational one is a product. Users ask follow-ups, use pronouns, reference previous answers. This is where LangChain is worth using — for memory modules. But read the source of what you use.',
+    approach:'🔀 LangChain OK here for ConversationChain and memory modules. Read the source code of what you use.',
+    datasets:{title:'Conversational Q&A datasets:',items:[
+      {label:'CoQA — Conversational Question Answering',url:'https://huggingface.co/datasets/coqa',why:'Multi-turn QA on same document — built exactly for this problem'},
+      {label:'QuAC — Question Answering in Context',url:'https://huggingface.co/datasets/quac',why:'Student/teacher dialogue format — harder coreference chains'},
+      {label:'5 hand-crafted multi-turn dialogues on your own corpus',url:null,why:'Manual test cases you control — essential ground truth'},
+    ]},
+    groups:[
+      {label:'Memory Patterns',tasks:[
+        {id:'t4-1',text:'Implement conversation buffer memory (last N turns)',desc:'Keep (user, assistant) pairs, prepend to retrieval context. Find exactly where it breaks on turn 15+.',diff:'flow',type:'build'},
+        {id:'t4-2',text:'Implement query reformulation from conversation history',desc:'"What else did he say?" → reformulate to explicit full query before retrieval. LLM does this as step 1.',diff:'deep',type:'build'},
+        {id:'t4-3',text:'Implement summary memory for long conversations',desc:'Summarize older turns instead of keeping full history. Rolling summarizer activates after N turns. Compare quality vs buffer.',diff:'deep',type:'build'},
+        {id:'t4-4',text:'Document 3 failure modes in conversational RAG',desc:'Pronoun resolution failure, context drift, topic switching. Write a failing test case for each. Engineering maturity.',diff:'flow',type:'experiment'},
+      ]},
+    ]
+  },
+  {
+    id:'p5',num:'05',name:'Evaluation — Prove It Works',tags:['eval'],
+    goal:'Build eval now, not as an afterthought. RAGAS gives you faithfulness (did LLM hallucinate?), context precision (right chunks?), answer relevancy (on-topic?). Your RAGAS score goes in the README. This is what interviewers look for.',
+    approach:'📊 Use RAGAS — this is not scratch territory. RAGAS is the industry eval standard.',
+    datasets:{title:'Eval datasets and tools:',items:[
+      {label:'TruthfulQA (HuggingFace)',url:'https://huggingface.co/datasets/truthful_qa',why:'Designed to catch hallucinations — perfect faithfulness eval'},
+      {label:'RAGAS synthetic testset generator',url:'https://docs.ragas.io/en/latest/getstarted/rag_testset_generation/',why:'Auto-generates Q&A pairs from your own docs — saves hours'},
+      {label:'20-question manual golden set from your corpus',url:null,why:'Ground truth you trust — always include alongside synthetic'},
+    ]},
+    groups:[
+      {label:'RAGAS Setup',tasks:[
+        {id:'t5-1',text:'Build a golden test set of 20 Q&A pairs from your docs',desc:'Manually create 20 questions with known correct answers and source chunk references. This is your ground truth. Do not skip this.',diff:'flow',type:'eval'},
+        {id:'t5-2',text:'Set up RAGAS — run faithfulness + context precision',desc:'Install RAGAS, wire to your pipeline output. Get baseline metrics. Log in README.md immediately.',diff:'flow',type:'eval'},
+        {id:'t5-3',text:'Run answer relevancy metric — find off-topic answers',desc:'Some answers are technically correct but not relevant to the question. RAGAS catches this. Find 2 cases in your own system.',diff:'flow',type:'eval'},
+      ]},
+      {label:'Diagnosis + Improvement',tasks:[
+        {id:'t5-4',text:'Find and fix 3 retrieval failures (low context precision)',desc:'Bad chunk size? Wrong similarity metric? Missing metadata filter? Diagnose root cause, fix one, rerun RAGAS. Show before/after delta.',diff:'deep',type:'eval'},
+        {id:'t5-5',text:'Find and fix 1 faithfulness failure (LLM hallucination)',desc:'LLM answered from prior knowledge, not context. Write the prompt guard: "Only answer from the provided context below."',diff:'deep',type:'eval'},
+        {id:'t5-6',text:'Build an eval script: one command → full JSON report',desc:'Automate all metrics in a single script. Run it every time you change the pipeline. This is your CI for RAG quality.',diff:'flow',type:'build'},
+      ]},
+    ]
+  },
+  {
+    id:'p6',num:'06',name:'Production — Pinecone + Scale',tags:['prod'],
+    goal:'ChromaDB is for development. Production systems need managed infrastructure, cost tracking, and latency discipline. Pinecone gives you serverless vector search. This phase is about thinking like an engineer shipping real products.',
+    approach:'☁️ Migrate to Pinecone serverless. Keep ChromaDB as local dev fallback.',
+    datasets:{title:'Scale-test with larger corpora:',items:[
+      {label:'Wikipedia English dump (~20GB, HuggingFace)',url:'https://huggingface.co/datasets/wikimedia/wikipedia',why:'1M+ vectors — tests indexing and query latency at real scale'},
+      {label:'Stack Overflow Q&A (Kaggle, 6M questions)',url:'https://www.kaggle.com/datasets/stackoverflow/stackoverflow',why:'Diverse technical queries — good for semantic cache hit testing'},
+      {label:'OpenAlex academic papers snapshot',url:'https://huggingface.co/datasets/OpenAlex/openalex-oa-snapshot',why:'Simulate a production knowledge base at serious scale'},
+    ]},
+    groups:[
+      {label:'Pinecone Migration',tasks:[
+        {id:'t6-1',text:'Migrate corpus from ChromaDB to Pinecone serverless',desc:'Same embeddings, different backend. Write migration script. Verify retrieval quality is identical by running your eval suite on both.',diff:'flow',type:'build'},
+        {id:'t6-2',text:'Implement namespace-based multi-tenancy',desc:'Each user or doc collection = own namespace. Isolated retrieval per namespace. This is how production RAG handles multiple users.',diff:'deep',type:'build'},
+        {id:'t6-3',text:'Benchmark Pinecone latency vs ChromaDB local',desc:'Measure p50, p95, p99 for both. Network latency is real. Write: "when I would pick each and why."',diff:'flow',type:'experiment'},
+      ]},
+      {label:'Cost & Latency Engineering',tasks:[
+        {id:'t6-4',text:'Implement semantic query caching',desc:'If query embeddings are very similar (cosine > 0.97), return cached answer. Measure cache hit rate and cost reduction over 100 queries.',diff:'deep',type:'build'},
+        {id:'t6-5',text:'Build a cost-per-query calculator',desc:'Log per query: embedding tokens, LLM input tokens, LLM output tokens, infra estimate. Calculate $/query. Founders care about this.',diff:'flow',type:'build'},
+        {id:'t6-6',text:'Map full latency budget per query',desc:'Embed: Xms. ANN search: Xms. Rerank: Xms. LLM: Xms. Where does time go? Find and fix the biggest bottleneck.',diff:'deep',type:'experiment'},
+      ]},
+    ]
+  },
+  {
+    id:'p7',num:'07',name:'Product — Next.js Frontend',tags:['prod'],
+    goal:'A live URL is worth 10 GitHub READMEs. Build the frontend that makes this a real product: document upload, streaming answers, source citations, cost display. This is your portfolio centerpiece.',
+    approach:'⚡ Next.js + FastAPI. LangChain fine for serving layer.',
+    datasets:{title:'Use interesting public corpora for the demo:',items:[
+      {label:'User-uploaded PDFs (primary)',url:null,why:'Best demo — users immediately see value with their own data'},
+      {label:'Paul Graham essays (public domain)',url:'https://paulgraham.com/articles.html',why:'Well-known, quotable — good for showcasing citation quality'},
+      {label:'arXiv papers on a specific topic',url:'https://arxiv.org/search/',why:'Technical depth — shows the system works on hard content'},
+    ]},
+    groups:[
+      {label:'FastAPI Backend',tasks:[
+        {id:'t7-1',text:'Set up FastAPI: /ingest, /query, /status endpoints',desc:'Design the API contract first. Next.js calls FastAPI. Clear separation of concerns.',diff:'flow',type:'build'},
+        {id:'t7-2',text:'Implement streaming LLM response via SSE',desc:'Token-by-token streaming. No loading spinners — users see the answer forming. Table stakes for 2025 AI apps.',diff:'deep',type:'build'},
+      ]},
+      {label:'Next.js UI',tasks:[
+        {id:'t7-3',text:'Document upload UI: drag-and-drop + ingestion progress',desc:'Upload PDF → chunk + embed → progress bar → chunk count confirmation. Real feedback, not just a spinner.',diff:'flow',type:'build'},
+        {id:'t7-4',text:'Show inline source citations with expandable chunk preview',desc:'"Answer [doc.pdf, p.4]" — click source → see exact chunk. Users trust what they can verify.',diff:'flow',type:'build'},
+        {id:'t7-5',text:'Display cost-per-query and session total in UI',desc:'"$0.0023/query · Session: $0.018" from your cost tracker backend. Shows production thinking.',diff:'warmup',type:'build'},
+        {id:'t7-6',text:'Deploy: Railway for FastAPI, Vercel for Next.js',desc:'Live URL + README: RAGAS score, architecture diagram, example queries. This is your portfolio entry.',diff:'flow',type:'build'},
+      ]},
+    ]
+  },
+];
+
+const TAG_MAP = {
+  system:'<span class="ptag ptag-system">System</span>',
+  algo:'<span class="ptag ptag-algo">Algorithm</span>',
+  eval:'<span class="ptag ptag-eval">Evaluation</span>',
+  prod:'<span class="ptag ptag-prod">Production</span>',
+  done:'<span class="ptag ptag-done">✓ Done</span>',
+  scratch:'<span class="ptag ptag-scratch">🔨 Scratch</span>',
+  langchain:'<span class="ptag ptag-langchain">🔗 LangChain</span>',
+};
+
+const S = {
+  get:()=>{try{return JSON.parse(localStorage.getItem('rag3_t')||'{}')}catch{return{}}},
+  set:(v)=>localStorage.setItem('rag3_t',JSON.stringify(v)),
+  getCol:()=>{try{return JSON.parse(localStorage.getItem('rag3_c')||'{}')}catch{return{}}},
+  setCol:(v)=>localStorage.setItem('rag3_c',JSON.stringify(v)),
+  getJ:()=>{try{return JSON.parse(localStorage.getItem('rag3_j')||'[]')}catch{return[]}},
+  setJ:(v)=>localStorage.setItem('rag3_j',JSON.stringify(v)),
+  getTheme:()=>localStorage.getItem('rag3_th')||'dark',
+  setTheme:(v)=>localStorage.setItem('rag3_th',v),
+};
+
+function allTasks(){return PHASES.flatMap(p=>p.groups.flatMap(g=>g.tasks));}
+function doneTasks(){const s=S.get();return allTasks().filter(t=>s[t.id]);}
+function pProg(p){const s=S.get(),t=p.groups.flatMap(g=>g.tasks),d=t.filter(x=>s[x.id]).length;return{done:d,total:t.length,pct:t.length?Math.round(d/t.length*100):0};}
+function curIdx(){for(let i=0;i<PHASES.length;i++){if(pProg(PHASES[i]).pct<100)return i;}return PHASES.length-1;}
+
+function toggleTask(id){const s=S.get();s[id]=!s[id];S.set(s);render();}
+
+function togglePhase(id){
+  const c=S.getCol();c[id]=!c[id];S.setCol(c);
+  const content=document.getElementById('pc-'+id);
+  const arrow=document.getElementById('pa-'+id);
+  if(content)content.classList.toggle('open',!c[id]);
+  if(arrow)arrow.classList.toggle('open',!c[id]);
+}
+
+function toggleTheme(){
+  const cur=document.documentElement.getAttribute('data-theme');
+  const next=cur==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',next);
+  S.setTheme(next);
+  document.getElementById('theme-btn').textContent=next==='dark'?'☀ Light':'🌙 Dark';
+}
+
+function confirmReset(){if(confirm('Reset all task progress?')){localStorage.removeItem('rag3_t');localStorage.removeItem('rag3_c');render();}}
+
+function addJournal(){
+  const input=document.getElementById('j-input');
+  const text=input.value.trim();
+  if(!text)return;
+  const entries=S.getJ();
+  entries.unshift({text,date:new Date().toLocaleString()});
+  S.setJ(entries);input.value='';renderJournal();
+}
+
+function renderJournal(){
+  const entries=S.getJ();
+  const el=document.getElementById('j-entries');
+  if(!entries.length){el.innerHTML='<div style="font-size:13px;color:var(--text-3);padding:6px 0">No entries yet.</div>';return;}
+  el.innerHTML=entries.slice(0,10).map(e=>`<div class="j-entry"><div class="j-date">${e.date}</div><div class="j-text">${e.text.replace(/</g,'&lt;')}</div></div>`).join('');
+}
+
+function render(){
+  const state=S.get(),col=S.getCol();
+  const total=allTasks().length,done=doneTasks().length;
+  const pct=total?Math.round(done/total*100):0;
+  const ci=curIdx(),cp=PHASES[ci];
+
+  document.getElementById('s-done').textContent=done;
+  document.getElementById('s-total').textContent=total;
+  document.getElementById('s-pct').textContent=pct+'%';
+  document.getElementById('s-phase').textContent=cp.num;
+  document.getElementById('s-pname').textContent=cp.name.split(' — ')[0];
+  document.getElementById('m-done').textContent=done;
+  document.getElementById('m-total').textContent=total;
+  document.getElementById('m-phase').textContent=cp.num;
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-label').textContent=pct+'%';
+  document.getElementById('sb-pct').textContent=pct+'%';
+  document.getElementById('sb-fill').style.width=pct+'%';
+
+  // Sidebar
+  document.getElementById('sb-phases').innerHTML=PHASES.map((p,i)=>{
+    const prog=pProg(p),isDone=prog.pct===100,isActive=i===ci;
+    const dc=isDone?'pdot-done':isActive?'pdot-active':'pdot-locked';
+    return `<div class="sb-item ${isActive?'active':''}" onclick="document.getElementById('phase-${p.id}').scrollIntoView({behavior:'smooth',block:'start'})">
+      <span class="pdot ${dc}"></span>
+      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.num} ${p.name.split(' — ')[0]}</span>
+      <span style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--text-3)">${prog.done}/${prog.total}</span>
+    </div>`;
+  }).join('');
+
+  // Phases
+  document.getElementById('phases-root').innerHTML=PHASES.map((p,idx)=>{
+    const prog=pProg(p),isDone=prog.pct===100,isActive=idx===ci;
+    const isOpen=col[p.id]===undefined?(isActive||isDone):!col[p.id];
+    const tagsHTML=p.tags.map(t=>TAG_MAP[t]||'').join('');
+
+    const dsHTML=p.datasets?`<div class="dataset-box">
+      <div style="font-size:16px;flex-shrink:0">📦</div>
+      <div class="ds-body">
+        <div class="ds-title">${p.datasets.title}</div>
+        ${p.datasets.items.map(d=>`<div class="ds-item"><span>·</span>${d.url?`<a href="${d.url}" target="_blank" rel="noopener">${d.label}</a>`:`<span style="font-family:'JetBrains Mono',monospace;font-size:11px">${d.label}</span>`}<span class="ds-why">— ${d.why}</span></div>`).join('')}
+      </div></div>`:'';;
+
+    const approachHTML=p.approach?`<div class="impl-note">${p.approach}</div>`:'';
+
+    const groupsHTML=p.groups.map(g=>`
+      <div class="task-group-label">${g.label}</div>
+      ${g.tasks.map(task=>{
+        const d=!!state[task.id];
+        return `<div class="task ${d?'done':''}" onclick="toggleTask('${task.id}')">
+          <div class="task-cb"></div>
+          <div class="task-body">
+            <div class="task-text">${task.text}</div>
+            <div class="task-desc">${task.desc}</div>
+            <div class="task-pills">
+              <span class="pill pill-${task.diff}">${task.diff}</span>
+              <span class="pill pill-${task.type}">${task.type}</span>
+            </div>
+          </div></div>`;
+      }).join('')}`).join('');
+
+    return `<div class="phase-block ${isDone?'phase-done':''} ${isActive?'phase-active':''}" id="phase-${p.id}">
+      <div class="phase-row" onclick="togglePhase('${p.id}')">
+        <div class="toggle-arrow ${isOpen?'open':''}" id="pa-${p.id}">▶</div>
+        <div class="phase-title-wrap">
+          <span class="phase-num">${p.num}</span>
+          <span class="phase-name">${p.name}</span>
+          <div style="display:flex;gap:5px;flex-wrap:wrap">${tagsHTML}</div>
+        </div>
+        <span class="phase-prog">${prog.done}/${prog.total}</span>
+      </div>
+      <div class="phase-content ${isOpen?'open':''}" id="pc-${p.id}">
+        <div class="phase-goal">${p.goal}</div>
+        ${approachHTML}${dsHTML}${groupsHTML}
+      </div></div>`;
+  }).join('');
+
+  renderJournal();
+}
+
+// Init
+const t=S.getTheme();
+document.documentElement.setAttribute('data-theme',t);
+window.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('theme-btn').textContent=t==='dark'?'☀ Light':'🌙 Dark';
+});
+render();
+</script>
+</body>
+</html>
